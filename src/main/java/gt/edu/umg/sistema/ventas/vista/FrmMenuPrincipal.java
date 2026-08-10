@@ -16,7 +16,21 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
      * Creates new form FrmMenuPrincipal
      */
     private void abrirFormulario(javax.swing.JInternalFrame formulario) {
-        desktopPane.add(formulario);
+        
+        for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            if (frame.getClass().equals(formulario.getClass())) {
+                try {
+                    frame.setSelected(true);
+                    frame.setIcon(false);
+                } catch (java.beans.PropertyVetoException e) {
+                    System.out.println("No se pudo restaurar el fomrulario: " +
+    e.getMessage());
+                }
+                return;
+            }
+        }
+        
+        jDesktopPane1.add(formulario);
         formulario.setVisible(true);
         
         try {
@@ -61,7 +75,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        btnSalir = new javax.swing.JMenuItem();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -112,8 +126,9 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         jMenu8.setText("Sistema");
         jMenu8.setToolTipText("");
 
-        jMenuItem4.setText("Salir");
-        jMenu8.add(jMenuItem4);
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        jMenu8.add(btnSalir);
 
         jMenuBar1.add(jMenu8);
 
@@ -137,6 +152,10 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
      FrmClientes clientes = new FrmClientes ();
      abrirFormulario(clientes);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,6 +183,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btnSalir;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -179,6 +199,5 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     // End of variables declaration//GEN-END:variables
 }
