@@ -4,7 +4,13 @@
  */
 package gt.edu.umg.sistema.ventas.vista;
 
+import gt.edu.sistemas.ventas.modelo.DetalleFactura;
+import gt.edu.umg.sistema.ventas.dao.DetalleFacturaDAOImpl;
+import gt.edu.umg.sistema.ventas.controlador.FacturaController;
+import gt.edu.umg.sistema.ventas.dao.ProductoDAOImpl;
+import gt.edu.umg.sistema.ventas.dao.ProductoDAO;
 import javax.swing.JOptionPane;
+import gt.edu.sistemas.ventas.modelo.Factura;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,27 +18,51 @@ import javax.swing.table.DefaultTableModel;
  * @author jeffe
  */
 public class FrmFactura extends javax.swing.JInternalFrame {
+    private FacturaController controller;
+    
+    private DetalleFacturaDAOImpl detalleDAO;
 
-    /**
-     * Creates new form FrmFactura
-     */
+    
     public FrmFactura() {
         initComponents();
+        
+        controller = new FacturaController();
+        detalleDAO = new DetalleFacturaDAOImpl();
+                
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Factura");
+        
+        controller = new FacturaController();
+        //refrescarTabla();
     }
     
 private void calcularTotal(){
     double total = 0;
     
-    for (int i = 0; i < tblProductos.getRowCount(); i++) {
-        double subtotal = Double.parseDouble(
-                tblProductos.getValueAt(i, 3).toString()
-        };
-    
-        total += subtotal; 
+  for (int i = 0; i < tblDetalleFactura.getRowCount(); i++) {
+      
+      Object valor =
+              tblDetalleFactura.getValueAt(i, 5);
+
+      if (valor != null) {
+
+          double subtotal =
+
+                  Double.parseDouble(
+
+                          valor.toString());
+
+          total += subtotal;
+
+      } 
     }
     
-    lblTotal.setText(String.format("Q %.2f", total));
-
+    lblTotal.setText(String.format("Q %.2f", total)
+    );
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,12 +85,14 @@ private void calcularTotal(){
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblProductos = new javax.swing.JTable();
+        tblDetalleFactura = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        lbTotal = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        textIdFactura = new java.awt.TextField();
+        jLabel8 = new javax.swing.JLabel();
 
         jLabel3.setText("Numero Factura");
 
@@ -70,13 +102,14 @@ private void calcularTotal(){
 
         jLabel6.setText("NIT");
 
-        txtNumeroFactura.setText("jTextField1");
+        txtNumeroFactura.setColumns(10);
+        txtNumeroFactura.addActionListener(this::txtNumeroFacturaActionPerformed);
 
-        txtFecha.setText("jTextField2");
+        txtFecha.setColumns(5);
 
-        txtCliente.setText("jTextField3");
+        txtCliente.setColumns(10);
 
-        txtNIT.setText("jTextField4");
+        txtNIT.setColumns(10);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,7 +126,7 @@ private void calcularTotal(){
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNIT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(694, Short.MAX_VALUE))
+                        .addContainerGap(774, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
@@ -128,53 +161,38 @@ private void calcularTotal(){
 
         jLabel1.setText("Detalle de productos");
 
-        tblProductos.setModel(new javax.swing.table.DefaultTableModel(
+        tblDetalleFactura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Producto", "Cantidad", "Precio", "Subtotal"
+                "IdProducto", "Producto", "Cantidad", "Precio", "Descripción", "Subtotal"
             }
         ));
-        jScrollPane1.setViewportView(tblProductos);
+        jScrollPane1.setViewportView(tblDetalleFactura);
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(this::btnAgregarActionPerformed);
 
         btnEliminar.setText("Elminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
         btnGuardar.setText("Guardar Factura");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         jLabel2.setText("Total");
 
-        lbTotal.setText("Q 0.00");
+        lblTotal.setText("Q 0.00");
+
+        textIdFactura.setColumns(5);
+        textIdFactura.addActionListener(this::textIdFacturaActionPerformed);
+
+        jLabel8.setText("ID Factura");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(273, 273, 273)
-                        .addComponent(jLabel7))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnAgregar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGuardar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,19 +205,40 @@ private void calcularTotal(){
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(43, 43, 43)
-                                .addComponent(lbTotal)
+                                .addComponent(lblTotal)
                                 .addGap(311, 311, 311))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAgregar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnEliminar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnGuardar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(73, 73, 73)
+                                        .addComponent(textIdFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(207, 207, 207)
+                                        .addComponent(jLabel7)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(textIdFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1)
@@ -213,25 +252,248 @@ private void calcularTotal(){
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(lbTotal))
-                .addContainerGap(195, Short.MAX_VALUE))
+                    .addComponent(lblTotal))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        String producto = JOption.showInputDialog(
+        
+        String idProductoStr = JOptionPane.showInputDialog(
+                this,
+                "Ingrese ID Producto:"
+        );
+        
+        String producto = JOptionPane.showInputDialog(
                 this,
                 "Ingrese el nombre del Producto:"
         );
         if (producto == null || producto.trim().isEmpty()){
             return;
         }
+        String cantidadStr = JOptionPane.showInputDialog(
+                this,
+                "Ingrese cantidad:"
+        );
         
+        String precioStr = JOptionPane.showInputDialog(
+                this,
+                "Ingrese precio:"
+        );
         
+        String descripcion = JOptionPane.showInputDialog(
+                this,
+                "Ingrese descripción:"
+        );
+        
+        System.out.println("ID: " + idProductoStr);
+        System.out.println("Cantidad: " + cantidadStr);
+        System.out.println("Precio: " + precioStr);
+        System.out.println("Descripcion: " + descripcion);
+        
+        try {
+            
+        int idProducto = Integer.parseInt(idProductoStr);
+        int cantidad = Integer.parseInt(cantidadStr);
+        double precio = Double.parseDouble(precioStr);
+
+        double subtotal = cantidad * precio;
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tblDetalleFactura.getModel();
+
+        modelo.addRow(new Object[]{
+           idProducto,
+           producto,
+           cantidad,
+           precio,
+           descripcion,
+           subtotal
+        });
+
+         calcularTotal();
+        
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            
+           JOptionPane.showMessageDialog(
+                       this,
+                       "Cantidad o precio inválidado."
+            );
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void txtNumeroFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroFacturaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumeroFacturaActionPerformed
+
+    private void textIdFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textIdFacturaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textIdFacturaActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = tblDetalleFactura.getSelectedRow();
+        
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(
+                    this, "seleccione una fila."
+            );
+            
+            return;
+        }
+        
+        DefaultTableModel modelo = 
+                (DefaultTableModel) tblDetalleFactura.getModel();
+        
+        modelo.removeRow(fila);
+        
+        calcularTotal();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+       try {
+        
+        Factura factura = new Factura();
+
+        factura.setNumeroFactura(
+                txtNumeroFactura.getText());
+
+        factura.setFecha(
+                txtFecha.getText());
+
+        factura.setCliente(
+                txtCliente.getText());
+
+        factura.setNit(
+                txtNIT.getText());
+
+        double total = Double.parseDouble(
+                lblTotal.getText()
+                        .replace("Q", "")
+                        .trim());
+
+        factura.setTotal(total);
+        
+        int idFactura =
+                controller.guardar(factura);
+        
+        guardarDetalles(idFactura);
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Factura guardada correctamente."
+        );
+        
+        limpiarFormulario();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                e.getMessage());
+       }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+    
+    
+    private void limpiarFormulario() {
+
+    textIdFactura.setText("");
+    txtNumeroFactura.setText("");
+    txtFecha.setText("");
+    txtCliente.setText("");
+    txtNIT.setText("");
+
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblDetalleFactura.getModel();
+
+    modelo.setRowCount(0);
+
+    lblTotal.setText("Q 0.00");
+    
+    tblDetalleFactura.setModel(
+    new DefaultTableModel(
+        new Object[][]{},
+        new String[]{
+            "Producto",
+            "Cantidad",
+            "Precio",
+            "Descripcion",
+            "Subtotal"
+        }
+     )
+   );
+  }
+    
+    
+    private void guardarDetalles(
+            int idFactura) {
+        
+        for (int i = 0;
+                i < tblDetalleFactura.getRowCount();
+                i++) {
+            Object idProducto = 
+                    tblDetalleFactura.getValueAt(i, 0);
+            
+            Object producto = 
+                    tblDetalleFactura.getValueAt(i, 1);
+            
+            Object cantidad =
+                    tblDetalleFactura.getValueAt(i, 2);
+            
+            Object precio =
+                    tblDetalleFactura.getValueAt(i, 3);
+            
+            Object descripcion =
+                    tblDetalleFactura.getValueAt(i, 4);
+            
+            Object subtotal =
+                    tblDetalleFactura.getValueAt(i, 5);
+            
+            if (producto == null) {
+                continue;
+            }
+            
+            DetalleFactura detalle = 
+                    new DetalleFactura();
+            
+            detalle.setIdProducto(
+                    Integer.parseInt(
+                            idProducto.toString()
+                    )
+            );
+            
+            detalle.setIdFactura(idFactura);
+            
+            detalle.setProducto(
+                    producto.toString());
+            
+            detalle.setCantidad(
+                    Integer.parseInt(
+                            cantidad.toString()));
+            
+            detalle.setPrecio(
+                    Double.parseDouble(
+                           precio.toString()));
+            
+            detalle.setDescripcion(
+                    descripcion.toString());
+            
+            detalle.setSubtotal(
+                    Double.parseDouble(
+                            subtotal.toString()));
+            
+            detalleDAO.guardar(detalle);
+            
+            ProductoDAOImpl productoDAO =
+                    new ProductoDAOImpl();
+            
+            productoDAO.descontarStock(
+                    detalle.getIdProducto(),
+                    detalle.getCantidad());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -244,10 +506,12 @@ private void calcularTotal(){
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lbTotal;
-    private javax.swing.JTable tblProductos;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTable tblDetalleFactura;
+    private java.awt.TextField textIdFactura;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNIT;

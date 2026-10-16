@@ -59,7 +59,7 @@
                           <Component id="txtTelefono" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNombre" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNit" min="-2" pref="71" max="-2" attributes="0"/>
-                          <Component id="txtDireccion" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
@@ -69,10 +69,10 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnLimpiar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnCargarDemo" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnActualizar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="756" max="32767" attributes="0"/>
+              <EmptySpace pref="706" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -112,7 +112,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnCargarDemo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
           </Group>
@@ -163,10 +163,10 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtNit">
       <Properties>
+        <Property name="columns" type="int" value="10"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century Gothic" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="txNit"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNitActionPerformed"/>
@@ -174,22 +174,22 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtNombre">
       <Properties>
-        <Property name="text" type="java.lang.String" value="txNombre"/>
+        <Property name="columns" type="int" value="10"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTelefono">
       <Properties>
-        <Property name="text" type="java.lang.String" value="txTelefono"/>
+        <Property name="columns" type="int" value="10"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCorreo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="txCorreo"/>
+        <Property name="columns" type="int" value="10"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtDireccion">
       <Properties>
-        <Property name="text" type="java.lang.String" value="txDireccion"/>
+        <Property name="columns" type="int" value="10"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDireccionActionPerformed"/>
@@ -197,7 +197,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="btnGuardar"/>
+        <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
@@ -205,13 +205,16 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnLimpiar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="btnLimpiar"/>
+        <Property name="text" type="java.lang.String" value="Limpiar"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnCargarDemo">
+    <Component class="javax.swing.JButton" name="btnActualizar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="btnCargarDemo"/>
+        <Property name="text" type="java.lang.String" value="Actualizar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>

@@ -22,7 +22,6 @@ public class FrmClientes extends javax.swing.JInternalFrame {
      */
     public FrmClientes() {
         initComponents();
-        
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -56,7 +55,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
                 cliente.getNombre(),
                 cliente.getTelefono(),
                 cliente.getCorreo(),
-                cliente.gettDireccion()
+                cliente.getDireccion()
             };
             
             modelo.addRow(fila);
@@ -100,7 +99,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         txtDireccion = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
-        btnCargarDemo = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
 
@@ -133,25 +132,26 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel5.setText("Direccion");
 
+        txtNit.setColumns(10);
         txtNit.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtNit.setText("txNit");
         txtNit.addActionListener(this::txtNitActionPerformed);
 
-        txtNombre.setText("txNombre");
+        txtNombre.setColumns(10);
 
-        txtTelefono.setText("txTelefono");
+        txtTelefono.setColumns(10);
 
-        txtCorreo.setText("txCorreo");
+        txtCorreo.setColumns(10);
 
-        txtDireccion.setText("txDireccion");
+        txtDireccion.setColumns(10);
         txtDireccion.addActionListener(this::txtDireccionActionPerformed);
 
-        btnGuardar.setText("btnGuardar");
+        btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
-        btnLimpiar.setText("btnLimpiar");
+        btnLimpiar.setText("Limpiar");
 
-        btnCargarDemo.setText("btnCargarDemo");
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -186,7 +186,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
                             .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -194,8 +194,8 @@ public class FrmClientes extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnLimpiar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCargarDemo)))
-                .addContainerGap(756, Short.MAX_VALUE))
+                        .addComponent(btnActualizar)))
+                .addContainerGap(706, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +226,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnLimpiar)
-                    .addComponent(btnCargarDemo))
+                    .addComponent(btnActualizar))
                 .addGap(327, 327, 327))
         );
 
@@ -258,9 +258,13 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         refrescarTabla();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+    
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCargarDemo;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;

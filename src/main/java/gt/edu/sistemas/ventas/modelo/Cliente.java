@@ -56,11 +56,15 @@ public class Cliente {
         this.correo = correo;
     }
     
-    public String gettDireccion(){
+    public String getDireccion(){
         return direccion;
     }
     
     public void setDireccion (String direccion) {
         this.direccion = direccion;
     }   
+
+ //   public String getDireccion() {
+       // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   // }
 }
