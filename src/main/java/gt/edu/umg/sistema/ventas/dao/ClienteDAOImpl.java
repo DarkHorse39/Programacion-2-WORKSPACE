@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     private final List <Cliente> clientes = new ArrayList<>();
     
 @Override
-public void guardar(Cliente cliente) {
+public int guardar(Cliente cliente) {
 
     String sql =
             "INSERT INTO Cliente "
@@ -34,7 +35,7 @@ public void guardar(Cliente cliente) {
     try (
             Connection con = ConexionDB.conectar();
             PreparedStatement ps =
-                    con.prepareStatement(sql)
+                    con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
     ) {
 
         ps.setString(1, cliente.getNit());
@@ -44,6 +45,13 @@ public void guardar(Cliente cliente) {
         ps.setString(5, cliente.getDireccion());
 
         ps.executeUpdate();
+        ResultSet rs =
+        ps.getGeneratedKeys();
+
+         if (rs.next()) {
+
+                return rs.getInt(1);
+            }
 
         System.out.println("Cliente guardado correctamente.");
 
@@ -52,6 +60,7 @@ public void guardar(Cliente cliente) {
         System.out.println("Error al guardar cliente:");
         e.printStackTrace();
     }
+    return -1;
 }
     
     @Override

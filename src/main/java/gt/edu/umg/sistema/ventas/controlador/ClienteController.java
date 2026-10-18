@@ -20,8 +20,8 @@ public class ClienteController {
         dao = new ClienteDAOImpl();
     }
     
-    public void guardar(Cliente cliente) {
-        dao.guardar(cliente);
+    public int guardar(Cliente cliente) {
+        return dao.guardar(cliente);
     }
     
     public List<Cliente> getClientes() {

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ClienteDAO {
     
-    void guardar(Cliente cliente);
+    int guardar(Cliente cliente);
     
     List <Cliente> listar();
     
